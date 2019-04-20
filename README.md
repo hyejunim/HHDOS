@@ -1,2 +1,2 @@
 # HHDOS
-HH Distributes OS
+HH Distributed OS
