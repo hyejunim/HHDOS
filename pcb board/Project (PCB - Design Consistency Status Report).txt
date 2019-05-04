@@ -1,0 +1,20 @@
+Design Consistency Status Report
+--------------------------------
+
+Report File:        C:\Users\LG\Desktop\4.2019_spring\380L RTOS\Project\Project (PCB - Design Consistency Status Report).txt
+Report Written:     Thursday, April 04, 2019
+Design Path:        C:\Users\LG\Desktop\4.2019_spring\380L RTOS\Project\Project.pcb
+Design Title:       
+Created:            3/31/2019 8:34:28 PM
+Last Saved:         4/4/2019 3:00:43 PM
+Editing Time:       1085 min
+Units:              inches (precision 3)
+
+
+Checking integrity of Schematic "C:\Users\LG\Desktop\4.2019_spring\380L RTOS\Project\Project.sch" with PCB "C:\Users\LG\Desktop\4.2019_spring\380L RTOS\Project\Project.pcb"
+============================================================================================================================================================================
+
+The designs are the same.
+
+
+End Of Report.

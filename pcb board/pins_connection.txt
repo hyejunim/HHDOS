@@ -1,0 +1,15 @@
+tm1
+ssi0: st7735
+ssi2: tm2
+ssi3: tm3
+
+tm2
+ssi0: st7735
+ssi2: tm1
+ssi1: tm3
+
+
+tm3
+ssi0: st7735
+ssi3: tm1
+ssi1: tm2
