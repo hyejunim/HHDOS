@@ -67,7 +67,7 @@ void WaitForInterrupt(void);  // low power mode
 
 // Two-pointer implementation of the FIFO
 // can hold 0 to FIFOSIZE-1 elements
-#define TXFIFOSIZE 32     // can be any size
+#define TXFIFOSIZE 64     // can be any size
 #define FIFOSUCCESS 1
 #define FIFOFAIL    0
 

@@ -34,6 +34,7 @@ extern Sema4Type FIFOcurrentSize;
 extern Sema4Type FIFOmutex; 
 extern Sema4Type FIFOroomleft;
 
+extern unsigned long NumCreated;   // number of foreground threads created
 extern unsigned long no_interrupt_time; // time measurement
 
 /**

@@ -6,7 +6,7 @@
 		Timer0: OS time measurement
 		Timer1: 
 		Timer2: ADC
-		Timer3:
+		Timer3: CAN
 		WTimer4: OS background process
 		Timer5: 
 	*/
@@ -30,6 +30,7 @@
 #define OS_TIME_PERIOD 80000
 
 #define PE1  (*((volatile unsigned long *)0x40024008))
+
 
 //******prototypes from startup.s
 void DisableInterrupts(void); // Disable interrupts
@@ -379,6 +380,7 @@ void Thread_Init(void){
 /*****************************************LAB2,3**************************************/
 void OS_Init(void)
 {
+	DisableInterrupts();
 	//PortE_Init(); // collides with IR
 	PortF_Init();		// included by HH
 	

@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>King</TargetName>
+      <TargetName>Slave1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -44,8 +44,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
-          <OutputName>King</OutputName>
+          <OutputDirectory>.\obj\</OutputDirectory>
+          <OutputName>Slave1</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -217,7 +217,7 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>2</RvdsVP>
+            <RvdsVP>1</RvdsVP>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -406,9 +406,9 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>slave1_main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
+              <FilePath>.\slave1_main.c</FilePath>
             </File>
             <File>
               <FileName>PLL.c</FileName>
@@ -426,9 +426,9 @@
               <FilePath>..\..\lib\LCD\ST7735\src\ST7735.c</FilePath>
             </File>
             <File>
-              <FileName>ssi.c</FileName>
+              <FileName>slave1_ssi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ssi.c</FilePath>
+              <FilePath>.\slave1_ssi.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -13,7 +13,7 @@
 #include "UART2.h"
 
 
-#define INPUT_SIZE 50
+#define INPUT_SIZE 20
 
 Sema4Type sUART;
 
@@ -43,8 +43,6 @@ void UART_OutCRLF(void){
 void Interpreter(void)
 {
 	while(1) {
-
-		
 		UART_OutCRLF();	UART_OutString("HH: ");
 		UART_InString(input, INPUT_SIZE);
 		
@@ -58,8 +56,6 @@ void Interpreter(void)
 		//OS_Wait(&sUART);
 		// determine commands
 		if(!strcmp(tok[0], "lcd"))								interpreter_lcd();
-		else if(!strcmp(tok[0], "ir"))					interpreter_ir();
-		else if(!strcmp(tok[0], "laser"))		interpreter_laser();
 		
 		else if(!strcmp(tok[0], "help"))		interpreter_help();
 		else { UART_OutCRLF(); UART_OutString("command not found, type 'help'"); }
@@ -71,9 +67,10 @@ void Interpreter(void)
 void interpreter_help(void)
 {
 	UART_OutCRLF(); UART_OutString("lcd   < <device> <line> <string> <value> >");
-	UART_OutCRLF(); UART_OutString("ir   	<r, f, a, c>");
-	UART_OutCRLF(); UART_OutString("laser");
+	UART_OutCRLF(); UART_OutString("ir   	< <device> <v, c> >");
+	UART_OutCRLF(); UART_OutString("laser <device>");
 }
+
 
 
 void interpreter_lcd(void)
