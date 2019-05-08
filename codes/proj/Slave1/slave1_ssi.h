@@ -66,13 +66,18 @@ static void SS1_SS_LOW (void);
  *                   Initializer                    *
  *                                                  *
  ****************************************************/
+/**
+ * Slave2_SSI_Init
+ * SSI3 and SSI1 init
+ */
+void Slave1_SSI_Init(void);
 
 /**
  * SSI2_Init
  * ----------
  * @brief initialize SSI with corresponding setting parameters.
  */
-void SSI2_Init();
+void SSI2_Init(void);
 
 
 /**
@@ -80,7 +85,7 @@ void SSI2_Init();
  * ----------
  * @brief initialize SSI with corresponding setting parameters.
  */
-void SSI1_Init();
+void SSI1_Init(void);
 /****************************************************
  *                                                  *
  *                   I/O Functions                  *
@@ -92,14 +97,14 @@ void SSI1_Init();
  * ----------
  * @return date read from slave device.
  */
-static uint16_t SSI1_read (void);
+uint16_t SSI1_read (void);
 
 /**
  * SSI1_write
  * ----------
  * @param  data  data to be written.
  */
-static void SSI1_write(uint16_t data);
+void SSI1_write(uint16_t data);
 
 
 
@@ -108,14 +113,14 @@ static void SSI1_write(uint16_t data);
  * ----------
  * @return date read from slave device.
  */
-static uint16_t SSI2_read (void);
+uint16_t SSI2_read (void);
 
 /**
  * SSI2_write
  * ----------
  * @param  data  data to be written.
  */
-static void SSI2_write(uint16_t data);
+void SSI2_write(uint16_t data);
 
 #endif
 

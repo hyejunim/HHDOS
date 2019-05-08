@@ -1,4 +1,4 @@
-/*!
+/*!
  * SSI.h
  * ----------
  * Inspired by examples in ValvanoWareTM4C123 by Dr. Jonathan Valvano

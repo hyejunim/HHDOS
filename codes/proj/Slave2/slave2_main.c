@@ -1,16 +1,18 @@
-/******** Master_Main ********
+/******** Slave2_Main ********
 * Author: Hyejun Im (hi956), Hyunsu Chae (hc25673)
 */
 
 #include <stdint.h>
 #include <stdlib.h>
+//#include "hw_types.h"
+//#include "tm4c123gh6pm.h"
 #include "PLL.h"
 #include "I2C.h"
 #include "ST7735.h"
 #include "OS.h"
 #include "UART2.h"
 #include "Interpreter.h"
-#include "master_ssi.h"
+#include "slave2_ssi.h"
 
 
 #define TIMESLICE 1000*TIME_1MS  // thread switch time in system time units
@@ -37,12 +39,12 @@ int main()
 //    ST7735_FillScreen(ST7735_BLACK);
 	
     /*-- SSI Init --*/
-	Master_SSI_Init();
+	Slave2_SSI_Init();
 	
-	uint16_t slave2Mailbox;
+	uint16_t masterMailbox;
 	while(1) {
-		SSI3_write(2);
-		slave2Mailbox = SSI3_read();
+		SSI3_write(10);
+		masterMailbox = SSI3_read();
 	}
 }
 

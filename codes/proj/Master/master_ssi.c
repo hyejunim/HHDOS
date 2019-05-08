@@ -4,8 +4,8 @@
 * King communicates with Knight and Pawn
 *
 * <SSI port usage>
-* King - Knight : SSI2 (PB4-ssi2clk, PB5-ssi2fss, PB6-ssi2RX, PB7-ssi2TX)
-* King - Pawn:		SSI3 (PD0-ssi2clk, PD1-ssi2fss, PD2-ssi2RX, PD3-ssi2TX)
+* Master - Slave1 :	SSI2 (PB4-ssi2clk, PB5-ssi2fss, PB6-ssi2RX, PB7-ssi2TX)
+* Master - Slave2:	SSI3 (PD0-ssi2clk, PD1-ssi2fss, PD2-ssi2RX, PD3-ssi2TX)
 * Credit : Zee Lv
 */
 
@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "tm4c123gh6pm.h"
+#include "master_ssi.h"
 
 
 /*
@@ -84,11 +85,20 @@ static void SSI3_SS_LOW (void) {
  *                   Initializer                    *
  *                                                  *
  ****************************************************/
+/**
+ * Master_SSI_Init
+ * SSI2 and SSI3 init
+ */
+void Master_SSI_Init(void)
+{
+	SSI2_Init();
+	SSI3_Init();
+}
 
 /**
  * SSI2_Init
  */
-void SSI2_Init() {
+void SSI2_Init(void) {
     /* SSI2 and Port B Activation */
     SYSCTL_RCGCSSI_R |= SYSCTL_RCGCSSI_R2;                 // enable SSI Module 2 clock
     SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R1;               // enable GPIO Port B clock
@@ -126,7 +136,7 @@ void SSI2_Init() {
 /**
  * SSI3_Init
  */
-void SSI3_Init() {
+void SSI3_Init(void) {
     /* SSI3 and Port D Activation */
     SYSCTL_RCGCSSI_R |= SYSCTL_RCGCSSI_R3;                 // enable SSI Module 3 clock
     SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R3;               // enable GPIO Port D clock
@@ -171,9 +181,9 @@ void SSI3_Init() {
 /**
  * SSI2_read
  * ----------
- * @return date read from slave device.
+ * @return date read from slave1 device.
  */
-static uint16_t SSI2_read (void) {
+uint16_t SSI2_read (void) {
     while((SSI2_SR_R & SSI_SR_BSY) == SSI_SR_BSY) {};     // wait until SSI2 not busy/transmit FIFO empty
     SSI2_DR_R = 0x00;                                     // data out, garbage, just for synchronization
     while((SSI2_SR_R & SSI_SR_RNE) == 0) {};              // wait until response
@@ -186,7 +196,7 @@ static uint16_t SSI2_read (void) {
  * ----------
  * @param  data  data to be written.
  */
-static void SSI2_write(uint16_t data){
+void SSI2_write(uint16_t data){
     while ((SSI2_SR_R & SSI_SR_BSY) == SSI_SR_BSY) {};   // wait until SSI2 not busy/transmit FIFO empty
     SSI2_DR_R = data;                                    // write data
     while ((SSI2_SR_R & SSI_SR_RNE) == 0) {};            // wait until response
@@ -196,9 +206,9 @@ static void SSI2_write(uint16_t data){
 /**
  * SSI3_read
  * ----------
- * @return date read from slave device.
+ * @return date read from slave2 device.
  */
-static uint16_t SSI3_read (void) {
+uint16_t SSI3_read (void) {
     while((SSI3_SR_R & SSI_SR_BSY) == SSI_SR_BSY) {};     // wait until SSI3 not busy/transmit FIFO empty
     SSI3_DR_R = 0x00;                                     // data out, garbage, just for synchronization
     while((SSI3_SR_R & SSI_SR_RNE) == 0) {};              // wait until response
@@ -211,7 +221,7 @@ static uint16_t SSI3_read (void) {
  * ----------
  * @param  data  data to be written.
  */
-static void SSI3_write (uint16_t data){
+void SSI3_write (uint16_t data){
     while ((SSI3_SR_R & SSI_SR_BSY) == SSI_SR_BSY) {};   // wait until SSI3 not busy/transmit FIFO empty
     SSI3_DR_R = data;                                    // write data
     while ((SSI3_SR_R & SSI_SR_RNE) == 0) {};            // wait until response
