@@ -90,6 +90,7 @@
 #define SSI_CR0_FRF_MOTO        0x00000000  // Freescale SPI Frame Format
 #define SSI_CR0_DSS_M           0x0000000F  // SSI Data Size Select
 #define SSI_CR0_DSS_8           0x00000007  // 8-bit data
+#define SSI_CR0_DSS_16           0x0000000F  // 8-bit data
 #define SSI_CR1_MS              0x00000004  // SSI Master/Slave Select
 #define SSI_CR1_SSE             0x00000002  // SSI Synchronous Serial Port
                                             // Enable
