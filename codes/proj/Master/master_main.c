@@ -32,9 +32,9 @@ int main()
     /*-- TM4C123 Init --*/
     PLL_Init(Bus80MHz);                             // bus clock at 80 MHz
     
-//    /*-- ST7735 Init --*/
-//    ST7735_InitR(INITR_REDTAB);
-//    ST7735_FillScreen(ST7735_BLACK);
+    /*-- ST7735 Init --*/
+    ST7735_InitR(INITR_REDTAB);
+    ST7735_FillScreen(ST7735_BLACK);
 	
     /*-- SSI Init --*/
 	Master_SSI_Init();
@@ -42,7 +42,7 @@ int main()
 	uint16_t slave2Mailbox;
 	while(1) {
 		SSI3_write(2);
-		slave2Mailbox = SSI3_read();
+		ST7735_Message(0, 0, "From slave2", SSI3_read());
 	}
 }
 

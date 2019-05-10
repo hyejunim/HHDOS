@@ -125,7 +125,7 @@ void SSI3_Init(void) {
     /* SSI3 Set Up */
     SSI3_CR1_R &= ~SSI_CR1_SSE;                            // disable SSI operation
     SSI3_CR1_R |= SSI_CR1_MS;                             // configure SSI3 as slave mode
-    SSI3_CPSR_R &= SSI_CPSR_CPSDVSR_M;                     // clear bit fields for SSI Clock Prescale Divisor
+    SSI3_CPSR_R &= ~SSI_CPSR_CPSDVSR_M;                     // clear bit fields for SSI Clock Prescale Divisor
     SSI3_CPSR_R += 40;                                     // /40 clock divisor, 2Mhz
     SSI3_CR0_R &= ~SSI_CR0_SCR_M;                          // clear bit fields for SSI3 Serial Clock Rate, SCR = 0
     SSI3_CR0_R &= ~SSI_CR0_SPO;                            // clear bit fields for SSI3 Serial Clock Polarity, SPO = 0
@@ -133,7 +133,7 @@ void SSI3_Init(void) {
     SSI3_CR0_R &= ~SSI_CR0_FRF_M;                          // clear bit fields for SSI3 Frame Format Select
     SSI3_CR0_R |= SSI_CR0_FRF_MOTO;                        // set frame format to Freescale SPI Frame Format
     SSI3_CR0_R &= ~SSI_CR0_DSS_M;                          // clear bit fields for SSI3 Data Size Select
-    SSI3_CR0_R |= SSI_CR0_DSS_8;                           // set SSI data size to 8
+    SSI3_CR0_R |= SSI_CR0_DSS_16;                           // set SSI data size to 8
     SSI3_CR1_R |= SSI_CR1_SSE;                             // enable SSI operation
 }
 
@@ -170,7 +170,7 @@ void SSI1_Init(void) {
     /* SSI1 Set Up */
     SSI1_CR1_R &= ~SSI_CR1_SSE;                            // disable SSI operation
     SSI1_CR1_R |= SSI_CR1_MS;                             // configure SSI1 as slave mode
-    SSI1_CPSR_R &= SSI_CPSR_CPSDVSR_M;                     // clear bit fields for SSI Clock Prescale Divisor
+    SSI1_CPSR_R &= ~SSI_CPSR_CPSDVSR_M;                     // clear bit fields for SSI Clock Prescale Divisor
     SSI1_CPSR_R += 40;                                     // /40 clock divisor, 2Mhz
     SSI1_CR0_R &= ~SSI_CR0_SCR_M;                          // clear bit fields for SSI1 Serial Clock Rate, SCR = 0
     SSI1_CR0_R &= ~SSI_CR0_SPO;                            // clear bit fields for SSI1 Serial Clock Polarity, SPO = 0
@@ -178,7 +178,7 @@ void SSI1_Init(void) {
     SSI1_CR0_R &= ~SSI_CR0_FRF_M;                          // clear bit fields for SSI1 Frame Format Select
     SSI1_CR0_R |= SSI_CR0_FRF_MOTO;                        // set frame format to Freescale SPI Frame Format
     SSI1_CR0_R &= ~SSI_CR0_DSS_M;                          // clear bit fields for SSI1 Data Size Select
-    SSI1_CR0_R |= SSI_CR0_DSS_8;                           // set SSI data size to 8
+    SSI1_CR0_R |= SSI_CR0_DSS_16;                           // set SSI data size to 8
     SSI1_CR1_R |= SSI_CR1_SSE;                             // enable SSI operation
 }
 
