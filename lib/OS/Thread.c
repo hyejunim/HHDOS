@@ -19,9 +19,9 @@ void Thread_CAN(void){
 //		tXmtData[4] = adcR;  //data for IR1 (Left)
 		
 		
-		CAN0_SendData(tXmtData);
+//		CAN0_SendData(tXmtData);
 		
-		ST7735_Message(1,0, "XMT_ID", XMT_ID);
+//		ST7735_Message(1,0, "XMT_ID", XMT_ID);
 		ST7735_Message(1,1, "send Lidar0:", tXmtData[0]);
 		ST7735_Message(1,2, "send Lidar1:", tXmtData[1]);
 		ST7735_Message(1,3, "send Lidar2", tXmtData[2]); 

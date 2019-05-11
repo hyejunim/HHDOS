@@ -59,13 +59,13 @@ uint32_t RcvCount=0;
 uint8_t sequenceNum=0;  
 
 void UserTask(void){
-  XmtData[0] = 0;  // 0 
-  XmtData[1] = PF0<<2;  // 0 or 4
-  XmtData[2] = 0;       // unassigned field
+  XmtData[0] = 0;  
+  XmtData[1] = 0;
+  XmtData[2] = PF4>>1;       // 0 or 8
   XmtData[3] = sequenceNum;  // sequence count
   CAN0_SendData(XmtData);
 	
-//			ST7735_Message (0, 0, "Slave1 XMT_ID", XMT_ID);
+//			ST7735_Message (0, 0, "Slave2 XMT_ID", XMT_ID);
 //			ST7735_Message (0, 1, "[0] ", XmtData[0]);
 //			ST7735_Message (0, 2, "[1] ", XmtData[1]);
 //			ST7735_Message (0, 3, "[2] ", XmtData[2]);
@@ -99,17 +99,17 @@ int main(void){
   CAN0_Open();
   Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
   EnableInterrupts();
-		
-	PF1 = 0x00;		
-	PF2 = 0x04;	
-	PF3 = 0x00;
+
+	PF1 = 0x00;
+	PF2 = 0x00;	
+	PF3 = 0x08;					
 		
   while(1){
     if(CAN0_GetMailNonBlock(RcvData)){
       RcvCount++;
       PF1 = RcvData[0];
-      PF2 ^= 0x04;
-      PF3 = RcvData[2];   // heartbeat
+      PF2 = RcvData[1];
+      PF3 ^= 0x08;   // heartbeat
 			
 //			ST7735_Message (1, 0, "Slave1 RCV_ID ", RCV_ID);
 //			ST7735_Message (1, 1, "[0] ", RcvData[0]);

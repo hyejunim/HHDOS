@@ -53,23 +53,25 @@
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
 void WaitForInterrupt(void);  // low power mode
-uint8_t XmtData[8];
+uint8_t XmtData1[8];
+uint8_t XmtData2[8];
 uint8_t RcvData[8];
 uint32_t RcvCount=0;
 uint8_t sequenceNum=0;  
 
 void UserTask(void){
-  XmtData[0] = PF0<<1;  // 0 or 2
-  XmtData[1] = PF4>>2;  // 0 or 4
-  XmtData[2] = 0;       // unassigned field
-  XmtData[3] = sequenceNum;  // sequence count
-  CAN0_SendData(XmtData);
+  XmtData1[0] = PF0<<1;  // 0 or 2
+  XmtData1[1] = 0;  // 0
+  XmtData1[2] = PF4>>1;  // 0 or 8
+  XmtData1[3] = sequenceNum;  // sequence count
+  CAN0_SendData1(XmtData1);
 	
-//			ST7735_Message (0, 0, "Slave1 XMT_ID", XMT_ID);
-//			ST7735_Message (0, 1, "[0] ", XmtData[0]);
-//			ST7735_Message (0, 2, "[1] ", XmtData[1]);
-//			ST7735_Message (0, 3, "[2] ", XmtData[2]);
-//			ST7735_Message (0, 4, "[3] ", XmtData[3]);
+  XmtData2[0] = PF0<<1;  // 0 or 2
+  XmtData2[1] = PF4>>2;  // 0 or 4
+  XmtData2[2] = 0;       // unassigned field
+  XmtData2[3] = sequenceNum;  // sequence count
+  CAN0_SendData2(XmtData2);
+	
 	
   sequenceNum++;
 	
@@ -81,8 +83,8 @@ int main(void){
   PLL_Init(Bus80MHz);              // bus clock at 80 MHz
 	
 	    /*-- ST7735 Init --*/
-    ST7735_InitR(INITR_REDTAB);
-    ST7735_FillScreen(ST7735_BLACK);
+//    ST7735_InitR(INITR_REDTAB);
+//    ST7735_FillScreen(ST7735_BLACK);
 		
 	
   SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
@@ -99,19 +101,23 @@ int main(void){
   CAN0_Open();
   Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
   EnableInterrupts();
+		
+	PF1 = 0x02;
+	PF2 = 0x00;	
+	PF3 = 0x00;			
 
   while(1){
     if(CAN0_GetMailNonBlock(RcvData)){
       RcvCount++;
-      PF1 = RcvData[0];
-      PF2 = RcvData[1];
-      PF3 = RcvCount;   // heartbeat
+      PF1 ^= 0x02;
+      PF2 = RcvData[1]; // blue
+      PF3 = RcvData[2]; // green
 			
-			ST7735_Message (1, 0, "Slave1 RCV_ID ", RCV_ID);
-			ST7735_Message (1, 1, "[0] ", RcvData[0]);
-			ST7735_Message (1, 2, "[1] ", RcvData[1]);
-			ST7735_Message (1, 3, "[2] ", RcvData[2]);
-			ST7735_Message (1, 4, "[3] ", RcvData[3]);
+//			ST7735_Message (1, 0, "King RCV_ID ", RCV_ID);
+//			ST7735_Message (1, 1, "[0] ", RcvData[0]);
+//			ST7735_Message (1, 2, "[1] ", RcvData[1]);
+//			ST7735_Message (1, 3, "[2] ", RcvData[2]);
+//			ST7735_Message (1, 4, "[3] ", RcvData[3]);
     }
   } 
 }

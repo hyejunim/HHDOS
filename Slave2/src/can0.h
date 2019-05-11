@@ -31,9 +31,8 @@
 #define CAN_BITRATE             1000000
 
 // reverse these IDs on the other microcontroller
-#define RCV_ID 3
-#define XMT_ID1 1
-#define XMT_ID2 2
+#define RCV_ID 2
+#define XMT_ID 3
 // Returns true if receive data is available
 //         false if no receive data ready
 int CAN0_CheckMail(void);
@@ -50,8 +49,8 @@ void CAN0_GetMail(uint8_t data[8]);
 void CAN0_Open(void);
 
 // send 4 bytes of data to other microcontroller 
-void CAN0_SendData1(uint8_t data[8]);
-void CAN0_SendData2(uint8_t data[8]);
+void CAN0_SendData(uint8_t data[8]);
+
 
 
 #endif //  __CAN0_H__
