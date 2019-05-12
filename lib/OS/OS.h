@@ -251,6 +251,8 @@ unsigned long OS_Time(void);
 //   this function and OS_Time have the same resolution and precision 
 unsigned long OS_TimeDifference(unsigned long start, unsigned long stop);
 
+unsigned long project_OS_TimeDifference(unsigned long start, unsigned long stop);
+
 // ******** OS_ClearMsTime ************
 // sets the system time to zero (from Lab 1)
 // Inputs:  none

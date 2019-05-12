@@ -456,11 +456,6 @@
               <FilePath>..\lib\OS\TCB.h</FilePath>
             </File>
             <File>
-              <FileName>Thread.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lib\OS\Thread.c</FilePath>
-            </File>
-            <File>
               <FileName>UART2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lib\OS\UART2.c</FilePath>

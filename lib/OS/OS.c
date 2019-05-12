@@ -26,8 +26,8 @@
 #define Lab3 1
 #define check_timestamp 0
 
-#define PRI_MAX 7
-#define OS_TIME_PERIOD 80000
+#define PRI_MAX 8
+#define OS_TIME_PERIOD 80000 // 1ms
 
 #define PE1  (*((volatile unsigned long *)0x40024008))
 
@@ -222,6 +222,7 @@ void OSTimer0_Init(void)
 	TIMER0_TAPR_R = 0;            // 5) bus clock resolution
   TIMER0_ICR_R = 0x00000001;    // 6) clear TIMER0A timeout flag
   TIMER0_IMR_R = 0x00000001;    // 7) arm timeout interrupt
+		
 //  NVIC_PRI4_R = (NVIC_PRI4_R&0x00FFFFFF)|0x80000000; // 8) priority 4
 // interrupts enabled in the main program after all devices initialized
 // vector number 35, interrupt number 19
@@ -329,6 +330,7 @@ uint32_t total_numJ2=0;
 uint32_t sum_J1=0;
 uint32_t sum_J2=0;
 #endif
+
 int toggle = 0;
 uint32_t ms = 0;
 /********* WideTimer4A_Handler **********/     
@@ -352,13 +354,11 @@ void WideTimer4B_Handler(void){
 /********* OS_ClearPeriodicTime **********/
 // Reset the 32-bit counter to 0
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////here1
 void OS_ClearPeriodicTime(void)
 {
 	WTIMER4_TAILR_R = 0;    // start value for trigger
 	WTIMER4_TBILR_R = 0;    // start value for trigger
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////here2
 
 /********* OS_ReadPeriodicTime **********/
 //Return the current 32-bit global count
@@ -381,10 +381,10 @@ void Thread_Init(void){
 void OS_Init(void)
 {
 	DisableInterrupts();
-	//PortE_Init(); // collides with IR
-	PortF_Init();		// included by HH
+	//PortE_Init(); 
+	//PortF_Init();	
 	
-	OSWTimer4_Init(); //for AddPeriodicThread
+//	OSWTimer4_Init(); //for AddPeriodicThread
 	OSTimer0_Init(); //for OS time measurement
 	OS_Launch_Check = 0;
 	
@@ -1375,16 +1375,11 @@ void OS_MailBox_Init(void)
 // It will spin/block if the MailBox contains data not yet received 
 void OS_MailBox_Send(unsigned long data)
 {
-//#if Lab2	 
+
 	OS_Wait(&Send);
 	Mail = data;
 	OS_Signal(&Ack);	
-//#endif	 
-/*#if Lab3	 	 	
-	OS_blockWait(&Send);
-	Mail = data;
-	OS_blockSignal(&Ack);
-#endif*/	
+
 }
 
 // ******** OS_MailBox_Recv ************
@@ -1396,16 +1391,11 @@ void OS_MailBox_Send(unsigned long data)
 unsigned long OS_MailBox_Recv(void)
 {
 	unsigned long data;
-//#if Lab2		
+
 	OS_Wait(&Ack);
 	data=Mail;
 	OS_Signal(&Send);
-//#endif	 
-/*#if Lab3	
-	OS_blockWait(&Ack);
-	data=Mail;
-	OS_blockSignal(&Send);
-#endif*/		
+
 	return data;
 	
 }
@@ -1413,13 +1403,13 @@ unsigned long OS_MailBox_Recv(void)
 // ******** OS_Time ************
 // return the system time 
 // Inputs:  none
-// Outputs: time in 12.5ns units, 0 to 4294967295
+// Outputs: time in 12.5ns units, 0 to 4294967295 
 // The time resolution should be less than or equal to 1us, and the precision 32 bits
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void)
 {
-//	return TIMER0_TAV_R;
+
 	return TIMER0_TAR_R; 
 }
 
@@ -1461,5 +1451,24 @@ unsigned long OS_MsTime(void)
 	return ms;
 }
 
+/********* Timer0_Handler **********/     
+void Timer0A_Handler(void){
+  TIMER0_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER0 timeout
+//  (*PeriodicTask1)();                // execute user task
+	toggle ^= 1;
+	ms += toggle;
+}
 
+
+
+
+unsigned long project_OS_TimeDifference(unsigned long start, unsigned long stop)
+{//start = last_time, stop = start_time, start> stop usually
+  if(stop < start){
+    return (start - stop);
+  }
+	else{
+		return (OS_TIME_PERIOD - start + stop);
+	}
+}
 

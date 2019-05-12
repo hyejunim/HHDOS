@@ -41,7 +41,6 @@
 #include "ST7735.h"
 #include "UART2.h"
 #include "OS.h"
-#include "Thread.h"
 #include "Thread_sort.h"
 //#include "Interpreter.h"
 
@@ -78,13 +77,12 @@ void UserTask(void){
 	
   sequenceNum++;
 	
-	
-	
 }
 
 
-int arr[12] = {1,5,15,79,5,33,126,66,88,95,43,5};
-int arr_size = 12;
+//int arr[12] = {1,5,15,79,5,33,126,66,88,95,43,5};
+int arr[100] = {0};
+//unsigned long arr_size = 12;
 unsigned long NumCreated;   // number of foreground threads created
 int main()
 {
@@ -94,10 +92,10 @@ int main()
 	//    ST7735_InitR(INITR_REDTAB);
 	//    ST7735_FillScreen(ST7735_BLACK);
 
+	/*-- PortF_Init --*/
 
 	SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
-															// allow time to finish activating
-	while((SYSCTL_PRGPIO_R&0x20) == 0){};
+	while((SYSCTL_PRGPIO_R&0x20) == 0){};	
 	GPIO_PORTF_LOCK_R = 0x4C4F434B;  // unlock GPIO Port F
 	GPIO_PORTF_CR_R = 0xFF;          // allow changes to PF4-0
 	GPIO_PORTF_DIR_R = 0x0E;         // make PF3-1 output (PF3-1 built-in LEDs)
@@ -106,25 +104,40 @@ int main()
 	GPIO_PORTF_PUR_R = 0x11;         // enable pullup on inputs
 	GPIO_PORTF_PCTL_R = 0x00000000;
 	GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
+	
+	/*-- CAN Init --*/	
 	CAN0_Open();
-	Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
+		
+	/*-- Timer3 Init --*/		
+//	Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
+		
+	/*-- Enable Interrupts --*/		
 	EnableInterrupts();
-
+		
+	
 	PF1 = 0x02;
-	PF2 = 0x00;	
-	PF3 = 0x00;			
+	
 
 	/*--OS Init --*/
 	OS_Init();
 	
-		NumCreated = 0 ;
-	NumCreated += OS_AddThread(Thread_MergeSort, 128, 1);
+	NumCreated = 0 ;
+	NumCreated += OS_AddThread(Random_Input, 128, 1);
+	NumCreated += OS_AddThread(Thread_MergeSort, 128, 2);
 	NumCreated += OS_AddThread(IdleTask, 128, 7);
 
 	OS_Launch(100000);
 }
 	
 	
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
+
 int canmain(void){
   PLL_Init(Bus80MHz);              // bus clock at 80 MHz
 	
