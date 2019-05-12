@@ -44,7 +44,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\obj\</OutputDirectory>
           <OutputName>Master</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -221,7 +221,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <RoSelD>3</RoSelD>
@@ -424,6 +424,11 @@
               <FileName>PLL.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lib\common\src\PLL.c</FilePath>
+            </File>
+            <File>
+              <FileName>Thread_sort.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Thread_sort.c</FilePath>
             </File>
           </Files>
         </Group>
