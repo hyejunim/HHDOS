@@ -40,8 +40,10 @@
 
 #include "ST7735.h"
 #include "UART2.h"
-//#include "Interpreter.h"
-
+#include "OS.h"
+#include "Interpreter.h"
+#include "Thread.h"
+#include "fifo.h"
 
 #define PF0       (*((volatile uint32_t *)0x40025004))
 #define PF1       (*((volatile uint32_t *)0x40025008))
@@ -75,50 +77,42 @@ void UserTask(void){
 	
   sequenceNum++;
 	
-	
-	
 }
 
+/*
+void Thread_RcvCAN(void)
+{
+//		if(CAN0_GetMailNonBlock1(RcvData) || CAN0_GetMailNonBlock2(RcvData)){
+//			  RcvCount++;
+//			  PF1 ^= 0x02;
+//			  PF2 = RcvData[1]; // blue
+//			  PF3 = RcvData[2]; // green
+//		}
+	}
+}*/
+unsigned long NumCreated =0;
 int main(void){
-  PLL_Init(Bus80MHz);              // bus clock at 80 MHz
+	PLL_Init(Bus80MHz);              // bus clock at 80 MHz
+
+	/*-- ST7735 Init --*/
+	ST7735_InitR(INITR_REDTAB);
+	ST7735_FillScreen(ST7735_BLACK);
+
+
+	OS_Init();
 	
-	    /*-- ST7735 Init --*/
-//    ST7735_InitR(INITR_REDTAB);
-//    ST7735_FillScreen(ST7735_BLACK);
-		
-	
-  SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
-                                   // allow time to finish activating
-  while((SYSCTL_PRGPIO_R&0x20) == 0){};
-  GPIO_PORTF_LOCK_R = 0x4C4F434B;  // unlock GPIO Port F
-  GPIO_PORTF_CR_R = 0xFF;          // allow changes to PF4-0
-  GPIO_PORTF_DIR_R = 0x0E;         // make PF3-1 output (PF3-1 built-in LEDs)
-  GPIO_PORTF_AFSEL_R = 0;          // disable alt funct
-  GPIO_PORTF_DEN_R = 0x1F;         // enable digital I/O on PF4-0
-  GPIO_PORTF_PUR_R = 0x11;         // enable pullup on inputs
-  GPIO_PORTF_PCTL_R = 0x00000000;
-  GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
-  CAN0_Open();
-  Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
-  EnableInterrupts();
-		
+	CAN0_Open();
+	Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
+
+
 	PF1 = 0x02;
 	PF2 = 0x00;	
 	PF3 = 0x00;			
 
-  while(1){
-    if(CAN0_GetMailNonBlock1(RcvData) || CAN0_GetMailNonBlock2(RcvData)){
-      RcvCount++;
-      PF1 ^= 0x02;
-      PF2 = RcvData[1]; // blue
-      PF3 = RcvData[2]; // green
-			
-//			ST7735_Message (1, 0, "King RCV_ID ", RCV_ID);
-//			ST7735_Message (1, 1, "[0] ", RcvData[0]);
-//			ST7735_Message (1, 2, "[1] ", RcvData[1]);
-//			ST7735_Message (1, 3, "[2] ", RcvData[2]);
-//			ST7735_Message (1, 4, "[3] ", RcvData[3]);
-    }
-  } 
+	NumCreated += OS_AddThread(Thread_RcvCAN, 128, 2);
+	NumCreated += OS_AddThread(&Interpreter, 128, 2);
+	NumCreated += OS_AddThread(&IdleTask, 128, 7);
+	
+	OS_Launch(10000);
 }
 

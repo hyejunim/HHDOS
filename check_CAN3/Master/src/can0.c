@@ -44,16 +44,49 @@
 
 #include "can0.h"
 #include "tm4c123gh6pm.h"
-
+#include "fifo.h"
 
 #define NULL 0
 // reverse these IDs on the other microcontroller
+
+#define PF0       (*((volatile uint32_t *)0x40025004))
+#define PF1       (*((volatile uint32_t *)0x40025008))
+#define PF2       (*((volatile uint32_t *)0x40025010))
+#define PF3       (*((volatile uint32_t *)0x40025020))
+#define PF4       (*((volatile uint32_t *)0x40025040))
 
 // Mailbox linkage from background to foreground
 uint8_t static RCVData1[8];
 int static MailFlag1;
 uint8_t static RCVData2[8];
 int static MailFlag2;
+
+typedef struct rcvdata
+{
+	uint8_t data[8];
+} RCVDATA;
+
+AddIndexFifo(USER1, 128, RCVDATA, 1, 0)	// uint8_t USER1Fifo[128]
+AddIndexFifo(USER2, 128, RCVDATA, 1, 0)	// uint8_t USER2Fifo[128]
+
+
+
+void Thread_RcvCAN(void)
+{
+	RCVDATA tmp;
+	while(1){
+		USER1Fifo_Get(&tmp);
+		PF1 ^= 0x02;
+		PF2 = tmp.data[1]; // blue
+		PF3 = tmp.data[2]; // green
+		
+		USER2Fifo_Get(&tmp);
+		PF1 ^= 0x02;
+		PF2 = tmp.data[1]; // blue
+		PF3 = tmp.data[2]; // green
+	}
+}
+
 //*****************************************************************************
 //
 // The CAN controller interrupt handler.
@@ -71,25 +104,26 @@ void CAN0_Handler(void){ uint8_t data[8];
       if( (0x1 << i) & ulIDStatus){  // if active, get data
         CANMessageGet(CAN0_BASE, (i+1), &xTempMsgObject, true);
         if(xTempMsgObject.ulMsgID == RCV_ID1){
-          RCVData1[0] = data[0];
-          RCVData1[1] = data[1];
-          RCVData1[2] = data[2];
-          RCVData1[3] = data[3];
-					RCVData1[4] = data[4];
-					RCVData1[5] = data[5];
-          RCVData1[6] = data[6];
-          RCVData1[7] = data[7];
+			RCVDATA rcvdata;
+			for(int i=0; i<xTempMsgObject.ulMsgLen; i++)
+				rcvdata.data[i] = data[i];
+			
+			int sr = StartCritical();
+			USER1Fifo_Put(rcvdata);
+			EndCritical(sr);
+			
 		      MailFlag1 = true;   // new mail
         }
-				 if(xTempMsgObject.ulMsgID == RCV_ID2){
-          RCVData2[0] = data[0];
-          RCVData2[1] = data[1];
-          RCVData2[2] = data[2];
-          RCVData2[3] = data[3];
-					RCVData2[4] = data[4];
-					RCVData2[5] = data[5];
-          RCVData2[6] = data[6];
-          RCVData2[7] = data[7];
+		if(xTempMsgObject.ulMsgID == RCV_ID2){
+
+			RCVDATA rcvdata;
+			for(int i=0; i<xTempMsgObject.ulMsgLen; i++)
+				rcvdata.data[i] = data[i];
+			
+			int sr = StartCritical();
+			USER2Fifo_Put(rcvdata);
+			EndCritical(sr);
+			
 		      MailFlag2 = true;   // new mail
         }
       }

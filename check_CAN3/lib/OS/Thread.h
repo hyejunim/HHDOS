@@ -1,6 +1,10 @@
 
-void Thread_Laser_LCD(void);
-void Thread_IR_LCD(void);
-void Thread_CAN(void);
-void Thread_BumperL(void);
-void Thread_BumperR(void);
+//******** IdleTask  *************** 
+// foreground thread, runs when no other work needed
+// never blocks, never sleeps, never dies
+// inputs:  none
+// outputs: none
+void IdleTask(void);
+
+
+

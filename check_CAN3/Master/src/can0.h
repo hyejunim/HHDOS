@@ -35,6 +35,10 @@
 #define RCV_ID2 4
 #define XMT_ID1 1
 #define XMT_ID2 2
+
+
+void Thread_RcvCAN(void);
+
 // Returns true if receive data is available
 //         false if no receive data ready
 int CAN0_CheckMail1(void);
