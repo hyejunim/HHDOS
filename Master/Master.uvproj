@@ -426,9 +426,14 @@
               <FilePath>..\lib\common\src\PLL.c</FilePath>
             </File>
             <File>
-              <FileName>Thread_sort.c</FileName>
+              <FileName>Thread_mCAN.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\Thread_sort.c</FilePath>
+              <FilePath>.\src\Thread_mCAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>Thread_mSort.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Thread_mSort.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -459,6 +464,11 @@
               <FileName>UART2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lib\OS\UART2.c</FilePath>
+            </File>
+            <File>
+              <FileName>Thread_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\OS\Thread_CAN.c</FilePath>
             </File>
           </Files>
         </Group>

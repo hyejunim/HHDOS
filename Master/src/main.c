@@ -41,7 +41,8 @@
 #include "ST7735.h"
 #include "UART2.h"
 #include "OS.h"
-#include "Thread_sort.h"
+#include "Thread_mSort.h"
+#include "Thread_mCAN.h"
 //#include "Interpreter.h"
 
 
@@ -122,8 +123,7 @@ int main()
 	OS_Init();
 	
 	NumCreated = 0 ;
-	NumCreated += OS_AddThread(Random_Input, 128, 1);
-	NumCreated += OS_AddThread(Thread_MergeSort, 128, 2);
+	NumCreated += OS_AddThread(Thread_CANSendArr, 128, 1);
 	NumCreated += OS_AddThread(IdleTask, 128, 7);
 
 	OS_Launch(100000);
