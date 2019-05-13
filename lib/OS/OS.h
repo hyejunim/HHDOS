@@ -28,6 +28,7 @@ extern TCB* runPt; // active running pointer
 extern Sema4Type sST7735;	// semaphore for ST7735
 extern Sema4Type sST77351;	// semaphore for ST7735
 extern Sema4Type sUART;			// semaphore for UART
+extern Sema4Type sThread_num;
 extern Sema4Type sActive_num;
 extern Sema4Type sSleep_num;
 extern Sema4Type FIFOcurrentSize;
@@ -36,6 +37,12 @@ extern Sema4Type FIFOroomleft;
 
 extern unsigned long NumCreated;   // number of foreground threads created
 extern unsigned long no_interrupt_time; // time measurement
+
+
+
+/*********PortF_Init**********/
+// Initialize PortF for LED
+void PortF_Init(void);
 
 /**
  * @details  Initialize operating system, disable interrupts until OS_Launch.

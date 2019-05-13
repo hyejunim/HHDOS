@@ -48,6 +48,7 @@ void PendSV_Handler(void);
 #define THREAD_SIZE  8        // maximum number of threads
 #define STACK_SIZE   256      // number of 32-bit words in stackTCB* thread
 TCB thread[THREAD_SIZE];
+Sema4Type sThread_num;
 
 //For active threads
 TCB* active_start;
@@ -139,40 +140,39 @@ unsigned long JitterHistogram2[JITTERSIZE]={0,};
 
 
 
+/*********PortF_Init**********/
+// Initialize PortF for LED
 void PortF_Init(void){ 
 	
-  SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
-  while((SYSCTL_PRGPIO_R&0x20) == 0){}			// ready?
-		
-  GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;  	// 2a) unlock GPIO Port F Commit Register
-  GPIO_PORTF_CR_R |= (SW1|SW2);  						// 2b) enable commit for PF4 and PF0
-  GPIO_PORTF_DIR_R &= ~(SW1|SW2);						// 5) make PF0 and PF4 in (built-in buttons)
-  GPIO_PORTF_AFSEL_R &= ~(SW1|SW2); 		  // 6) disable alt funct on PF0 and PF4
-  GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFF0FFF0)+0x00000000;      // 4) configure PF0 and PF4 as GPIO
-  GPIO_PORTF_PUR_R |= (SW1|SW2); 						// enable weak pull-up on PF0 and PF4
-  GPIO_PORTF_AMSEL_R &= ~(SW1|SW2);    	// 3) disable analog functionality on PF4 and PF0
-  GPIO_PORTF_DEN_R |= (SW1|SW2);						// 7) enable digital I/O on PF0 and PF4
+	SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
+	while((SYSCTL_PRGPIO_R&0x20) == 0){}			// ready?
+
+	GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;  	// 2a) unlock GPIO Port F Commit Register
+	GPIO_PORTF_CR_R |= (SW1|SW2);  						// 2b) enable commit for PF4 and PF0
+	GPIO_PORTF_DIR_R &= ~(SW1|SW2);						// 5) make PF0 and PF4 in (built-in buttons)
+	GPIO_PORTF_AFSEL_R &= ~(SW1|SW2); 		  // 6) disable alt funct on PF0 and PF4
+	GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFF0FFF0)+0x00000000;      // 4) configure PF0 and PF4 as GPIO
+	GPIO_PORTF_PUR_R |= (SW1|SW2); 						// enable weak pull-up on PF0 and PF4
+	GPIO_PORTF_AMSEL_R &= ~(SW1|SW2);    	// 3) disable analog functionality on PF4 and PF0
+	GPIO_PORTF_DEN_R |= (SW1|SW2);						// 7) enable digital I/O on PF0 and PF4
 	GPIO_PORTF_IM_R = 0x11;							// enable interrupt for PF0 and PF4
 	GPIO_PORTF_IS_R &= ~0x11;     // (d) PF0,4 is edge-sensitive
-  GPIO_PORTF_IBE_R &= ~0x11;    //     PF0,4 is not both edges
-  GPIO_PORTF_IEV_R |= 0x11;    //     PF0,4 rising edge event
-  GPIO_PORTF_ICR_R = 0x11;      // (e) clear flag0,4
-	
+	GPIO_PORTF_IBE_R &= ~0x11;    //     PF0,4 is not both edges
+	GPIO_PORTF_IEV_R |= 0x11;    //     PF0,4 rising edge event
+	GPIO_PORTF_ICR_R = 0x11;      // (e) clear flag0,4
+
 	// for PortF: vector number 46, interrupt number 30
-  NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF) | (5<<16); // 8) set priority = 3: PRI7 is for interrupt 28~31
+	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF) | (5<<16); // 8) set priority = 3: PRI7 is for interrupt 28~31
 	NVIC_EN0_R = 1<<30;   // 9) enable: EN0_R is for interrupt 0-31
 
-		
-		
 	// LED turning on config
 	GPIO_PORTF_DIR_R |= (RED|BLUE|GREEN); 
-  GPIO_PORTF_AFSEL_R &= ~(RED|BLUE|GREEN);// disable alt funct on PF3-1
-  GPIO_PORTF_DEN_R |= (RED|BLUE|GREEN); // enable digital I/O on PF3-1
-  GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000; // configure PF3-1 as GPIO
-  GPIO_PORTF_AMSEL_R = 0;     // disable analog functionality on PF
+	GPIO_PORTF_AFSEL_R &= ~(RED|BLUE|GREEN);// disable alt funct on PF3-1
+	GPIO_PORTF_DEN_R |= (RED|BLUE|GREEN); // enable digital I/O on PF3-1
+	GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000; // configure PF3-1 as GPIO
+	GPIO_PORTF_AMSEL_R = 0;     // disable analog functionality on PF
 	LEDS = 0;                        // turn all LEDs off
-		
-
+	
 }
 
 void PortE_Init(void){ 
@@ -371,6 +371,7 @@ void Thread_Init(void){
 	int i;
 	OS_InitSemaphore(&sActive_num, 1);
 	OS_InitSemaphore(&sSleep_num, 1);
+	OS_InitSemaphore(&sThread_num, THREAD_SIZE);
 	for(i=0; i<THREAD_SIZE; i++){
 		thread[i].status = 3;
 	}
