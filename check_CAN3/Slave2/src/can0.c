@@ -44,14 +44,39 @@
 
 #include "can0.h"
 #include "tm4c123gh6pm.h"
+#include "fifo.h"
 
 
 #define NULL 0
 // reverse these IDs on the other microcontroller
 
+#define PF0       (*((volatile uint32_t *)0x40025004))
+#define PF1       (*((volatile uint32_t *)0x40025008))
+#define PF2       (*((volatile uint32_t *)0x40025010))
+#define PF3       (*((volatile uint32_t *)0x40025020))
+#define PF4       (*((volatile uint32_t *)0x40025040))
+
 // Mailbox linkage from background to foreground
 uint8_t static RCVData[8];
 int static MailFlag;
+typedef struct rcvdata
+{
+	uint8_t data[8];
+} RCVDATA;
+
+AddIndexFifo(SERVER, 128, RCVDATA, 1, 0)	// uint8_t USER1Fifo[128]
+
+void Thread_RcvCAN(void)
+{
+	RCVDATA tmp;
+	while(1){
+		SERVERFifo_Get(&tmp);
+		PF1 = tmp.data[0];
+		PF2 = tmp.data[1];
+		PF3 ^= 0x08;   // heartbeat
+		
+	}
+}
 
 //*****************************************************************************
 //
@@ -59,31 +84,31 @@ int static MailFlag;
 //
 //*****************************************************************************
 void CAN0_Handler(void){ uint8_t data[8];
-  uint32_t ulIntStatus, ulIDStatus;
-  int i;
-  tCANMsgObject xTempMsgObject;
-  xTempMsgObject.pucMsgData = data;
-  ulIntStatus = CANIntStatus(CAN0_BASE, CAN_INT_STS_CAUSE); // cause?
-  if(ulIntStatus & CAN_INT_INTID_STATUS){  // receive?
-    ulIDStatus = CANStatusGet(CAN0_BASE, CAN_STS_NEWDAT);
-    for(i = 0; i < 32; i++){    //test every bit of the mask
-      if( (0x1 << i) & ulIDStatus){  // if active, get data
-        CANMessageGet(CAN0_BASE, (i+1), &xTempMsgObject, true);
-        if(xTempMsgObject.ulMsgID == RCV_ID){
-          RCVData[0] = data[0];
-          RCVData[1] = data[1];
-          RCVData[2] = data[2];
-          RCVData[3] = data[3];
-					RCVData[4] = data[4];
-					RCVData[5] = data[5];
-          RCVData[6] = data[6];
-          RCVData[7] = data[7];
-		      MailFlag = true;   // new mail
-        }
-      }
-    }
-  }
-  CANIntClear(CAN0_BASE, ulIntStatus);  // acknowledge
+	uint32_t ulIntStatus, ulIDStatus;
+	int i;
+	tCANMsgObject xTempMsgObject;
+	xTempMsgObject.pucMsgData = data;
+	ulIntStatus = CANIntStatus(CAN0_BASE, CAN_INT_STS_CAUSE); // cause?
+	if(ulIntStatus & CAN_INT_INTID_STATUS){  // receive?
+		ulIDStatus = CANStatusGet(CAN0_BASE, CAN_STS_NEWDAT);
+		for(i = 0; i < 32; i++){    //test every bit of the mask
+			if( (0x1 << i) & ulIDStatus){  // if active, get data
+				CANMessageGet(CAN0_BASE, (i+1), &xTempMsgObject, true);
+				if(xTempMsgObject.ulMsgID == RCV_ID){
+					RCVDATA rcvdata;
+					for(int i=0; i<xTempMsgObject.ulMsgLen; i++)
+						rcvdata.data[i] = data[i];
+
+					int sr = StartCritical();
+					SERVERFifo_Put(rcvdata);
+					EndCritical(sr);
+
+					MailFlag = true;   // new mail
+				}
+			}
+		}
+	}
+	CANIntClear(CAN0_BASE, ulIntStatus);  // acknowledge
 }
 
 //Set up a message object.  Can be a TX object or an RX object.

@@ -79,17 +79,6 @@ void UserTask(void){
 	
 }
 
-/*
-void Thread_RcvCAN(void)
-{
-//		if(CAN0_GetMailNonBlock1(RcvData) || CAN0_GetMailNonBlock2(RcvData)){
-//			  RcvCount++;
-//			  PF1 ^= 0x02;
-//			  PF2 = RcvData[1]; // blue
-//			  PF3 = RcvData[2]; // green
-//		}
-	}
-}*/
 unsigned long NumCreated =0;
 int main(void){
 	PLL_Init(Bus80MHz);              // bus clock at 80 MHz

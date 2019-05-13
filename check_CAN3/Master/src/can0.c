@@ -69,8 +69,6 @@ typedef struct rcvdata
 AddIndexFifo(USER1, 128, RCVDATA, 1, 0)	// uint8_t USER1Fifo[128]
 AddIndexFifo(USER2, 128, RCVDATA, 1, 0)	// uint8_t USER2Fifo[128]
 
-
-
 void Thread_RcvCAN(void)
 {
 	RCVDATA tmp;
