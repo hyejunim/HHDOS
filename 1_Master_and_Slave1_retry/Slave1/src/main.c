@@ -105,7 +105,7 @@ int main()
 	/*--OS Init --*/
 	OS_Init();
 		
-	PF2 = 0x04;
+//	PF2 = 0x04;
 		
 	NumCreated = 0 ;
 	NumCreated += OS_AddThread(CAN_Init_Receive, 128, 2);

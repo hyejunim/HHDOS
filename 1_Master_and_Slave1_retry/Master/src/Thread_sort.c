@@ -54,19 +54,19 @@ void Master_Reset (void){
 }
 
 
-
 /********************* CAN_Send ***********************/
 // normally sending arr[] to Slave1 by CAN
 void CAN_Send (void){
 	
-//	UART_OutString(" Sending numbers.... "); UART_OutCRLF();
+	UART_OutString(" Sending numbers.... "); UART_OutUDec(snum); UART_OutCRLF();
 	for(int i=0; i<8; i++){
 		sdata[i] = arr[i+snum*8];
 		UART_OutUDec(sdata[i]); UART_OutCRLF();
 	}
   CAN0_SendData1(sdata);
+	
 	snum++;
-
+	
 	OS_Kill();
 }
 
@@ -95,14 +95,14 @@ void Random_Input (void){
 	 for(int j=0; j<(arr_size/8); j++){
 			for(int i =0; i<8; i++){
 				arr[ i + j*8 ] = rand() % 255;
-//				sdata[i] = arr[i+j*8];
-//				UART_OutUDec(sdata[i]); UART_OutCRLF();
+				sdata[i] = arr[i+j*8];
+				UART_OutUDec(sdata[i]); UART_OutCRLF();
 			}
-			NumCreated += OS_AddThread(CAN_Send, 128, 1);
-//			OS_Suspend();
-//			CAN0_SendData1(sdata);
+//			NumCreated += OS_AddThread(CAN_Send, 128, 1);
+			CAN0_SendData1(sdata);
 			
 		}
+		PF1 =0x00;
 		OS_Kill();
 }
 
@@ -114,8 +114,10 @@ uint32_t rnum=0;
 void CAN_Receive (void){
 //	rnum = 0;
  while(rnum < (arr_size/8)){
-
+		PF2 =0x04;
     if(CAN0_GetMailNonBlock(rdata)){
+			
+			
 		UART_OutString(" Receiving numbers.... "); UART_OutCRLF();
 			for(int i=0; i<8; i++){
 				final_result[i + rnum*8] = rdata[i];
@@ -125,7 +127,7 @@ void CAN_Receive (void){
 			rnum ++;
     }
 	}
-	
+	PF1 =0x00;
 	OS_Kill();
 }
 /*********************PrintResult***********************/

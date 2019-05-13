@@ -76,8 +76,9 @@ void CAN_Init_Receive (void){
 void CAN_Receive (void){
 //	rnum = 0;
  while(rnum < (arr_size/8)){
-
+		PF1 =0x02;
     if(CAN0_GetMailNonBlock(rdata)){
+		
 		UART_OutString(" Receiving numbers.... "); UART_OutCRLF();
 			for(int i=0; i<8; i++){
 				arr[i + rnum*8] = rdata[i];
@@ -86,8 +87,9 @@ void CAN_Receive (void){
 			}
 			rnum ++;
     }
+		
 	}
-	
+	PF2 =0x00;
 	OS_Kill();
 }
 
@@ -97,6 +99,7 @@ uint32_t snum=0;
 // Iterative merge sort
 // Kills itself
 void Thread_MergeSort(){
+	PF2 =0x04;
 
    int curr_size;  // For current size of subarrays to be merged 
                    // curr_size varies from 1 to n/2 
@@ -134,7 +137,7 @@ void Thread_MergeSort(){
 		stop_time	= OS_usTime();
 	 
 //*****Print result*******//	
-	 NumCreated += OS_AddThread(CAN_Send, 128, 7);
+	 NumCreated += OS_AddThread(CAN_Send, 128, 1);
 	 
 //	
 //	for(int j=0; j<(arr_size/8); j++){
@@ -207,9 +210,10 @@ void Merge(int arr[], int l, int m, int r){
 
 
 
+
 /********************* CAN_Send ***********************/
 void CAN_Send (void){
-	
+	PF2 =0x04;
 	UART_OutString(" Sending numbers.... ");UART_OutUDec(snum); UART_OutCRLF();
 	
 	for(int j=0; j<(arr_size/8); j++){
@@ -218,7 +222,7 @@ void CAN_Send (void){
 			UART_OutUDec(sdata[i]); UART_OutCRLF();
 		}
 		CAN0_SendData(sdata);
-		OS_Suspend();
+		
 	}
 
 	OS_Kill();
