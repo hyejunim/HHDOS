@@ -37,13 +37,13 @@
 #include "Timer3.h"
 #include "can0.h"
 #include "tm4c123gh6pm.h"
-
 #include "ST7735.h"
 #include "UART2.h"
 #include "OS.h"
 #include "Interpreter.h"
 #include "Thread.h"
 #include "fifo.h"
+#include "user.h"
 
 
 #define PF0       (*((volatile uint32_t *)0x40025004))
@@ -56,55 +56,50 @@
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
 void WaitForInterrupt(void);  // low power mode
-uint8_t XmtData[8];
-uint8_t RcvData[8];
-uint32_t RcvCount=0;
-uint8_t sequenceNum=0;  
 
-void UserTask(void){
-  XmtData[0] = 0;  // 0 
-  XmtData[1] = PF0<<2;  // 0 or 4
-  XmtData[2] = 0;       // unassigned field
-  XmtData[3] = sequenceNum;  // sequence count
-  CAN0_SendData(XmtData);
-	
-//			ST7735_Message (0, 0, "Slave1 XMT_ID", XMT_ID);
-//			ST7735_Message (0, 1, "[0] ", XmtData[0]);
-//			ST7735_Message (0, 2, "[1] ", XmtData[1]);
-//			ST7735_Message (0, 3, "[2] ", XmtData[2]);
-//			ST7735_Message (0, 4, "[3] ", XmtData[3]);
-	
-  sequenceNum++;
-	
-	
-	
-}
 
 unsigned long NumCreated =0;
 int main(void){
 	PLL_Init(Bus80MHz);              // bus clock at 80 MHz
 	
 	 /*-- ST7735 Init --*/
-    ST7735_InitR(INITR_REDTAB);
-    ST7735_FillScreen(ST7735_BLACK);
+//    ST7735_InitR(INITR_REDTAB);
+//    ST7735_FillScreen(ST7735_BLACK);
 	
 	 /*-- OS Init --*/
 	OS_Init();
 	
 	 /*-- CAN Init --*/
 	CAN0_Open();
-	Timer3_Init(&UserTask, 1600000); // initialize timer3 (10 Hz)
+	Timer3_Init(PeriodicSendCAN, 1600000); // initialize timer3 (10 Hz)
 
 
 	PF1 = 0x00;		
 	PF2 = 0x04;	
 	PF3 = 0x00;
 	
-	NumCreated += OS_AddThread(Thread_RcvCAN, 128, 2);
+	//NumCreated += OS_AddThread(Thread_RcvCAN, 128, 2);
 	NumCreated += OS_AddThread(&Interpreter, 128, 2);
 	NumCreated += OS_AddThread(&IdleTask, 128, 7);
 	
 	OS_Launch(10000);
 	
 }
+
+int amain()
+{
+	PLL_Init(Bus80MHz);              // bus clock at 80 MHz
+	
+	 /*-- OS Init --*/
+	OS_Init();
+	
+	char word[10];
+	word[0] = 'h';
+	
+	UART_OutString(word);
+	char ch = UART_InChar();
+	UART_OutChar(ch);
+	return 0;
+}
+
 

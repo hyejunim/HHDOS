@@ -425,16 +425,16 @@
               <FileType>1</FileType>
               <FilePath>..\lib\common\src\PLL.c</FilePath>
             </File>
+            <File>
+              <FileName>user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>OS</GroupName>
           <Files>
-            <File>
-              <FileName>Interpreter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lib\OS\Interpreter.c</FilePath>
-            </File>
             <File>
               <FileName>OS.c</FileName>
               <FileType>1</FileType>
@@ -459,6 +459,11 @@
               <FileName>UART2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lib\OS\UART2.c</FilePath>
+            </File>
+            <File>
+              <FileName>User_Interpreter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\OS\User_Interpreter.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -63,19 +63,7 @@ typedef struct rcvdata
 	uint8_t data[8];
 } RCVDATA;
 
-AddIndexFifo(SERVER, 128, RCVDATA, 1, 0)	// uint8_t USER1Fifo[128]
-
-void Thread_RcvCAN(void)
-{
-	RCVDATA tmp;
-	while(1){
-		SERVERFifo_Get(&tmp);
-		PF1 = tmp.data[0];
-		PF2 ^= 0x04;
-		PF3 = tmp.data[2];   // heartbeat
-		
-	}
-}
+AddIndexFifo(SERVER, 128, RCVDATA, 1, 0)	// uint8_t SERVERFifo[128]
 
 
 //*****************************************************************************
@@ -180,18 +168,20 @@ int CAN0_GetMailNonBlock(uint8_t data[8]){
   }
   return false;
 }
+
+
 // if receive data is ready, gets the data 
 // if no receive data is ready, it waits until it is ready
 void CAN0_GetMail(uint8_t data[8]){
-  while(MailFlag==false){};
-  data[0] = RCVData[0];
-  data[1] = RCVData[1];
-  data[2] = RCVData[2];
-  data[3] = RCVData[3];
-	data[4] = RCVData[4];
-  data[5] = RCVData[5];
-  data[6] = RCVData[6];
-  data[7] = RCVData[7];
-  MailFlag = false;
+	
+	while(SERVERFifo_Size() <= 0) {}	// wait until fifo is not empty
+
+	RCVDATA tmp;
+	SERVERFifo_Get(&tmp);
+		
+	for(int i=0; i<8; i++)
+		data[i] = tmp.data[i];
+		
+	MailFlag = false;
 }
 

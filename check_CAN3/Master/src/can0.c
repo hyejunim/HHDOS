@@ -182,7 +182,6 @@ void CAN0_SendData2(uint8_t data[8]){
   CAN0_Setup_Message_Object(XMT_ID2, NULL, 8, data, XMT_ID2, MSG_OBJ_TYPE_TX);
 }
 
-
 // Returns true if receive data is available
 //         false if no receive data ready
 int CAN0_CheckMail1(void){
