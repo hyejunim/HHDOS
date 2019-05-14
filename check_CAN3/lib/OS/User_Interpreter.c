@@ -95,7 +95,8 @@ void interpreter_filels(void)
 	}
 	else								// denied
 	{
-		 UART_OutCRLF(); UART_OutString((char*)response);
+		UART_OutCRLF();
+		for(int j=0; j<8; j++)	UART_OutChar(response[j]);
 		return;
 	}
 	
@@ -104,7 +105,7 @@ void interpreter_filels(void)
 	for(int i=0; i<filenum; i++)
 	{
 		CAN0_GetMail(file);
-		UART_OutString((char*)file);	UART_OutString("   ");
+		for(int j=0; j<8; j++)	UART_OutChar(file[j]);	UART_OutString("   ");
 	}
 }
 
@@ -130,7 +131,8 @@ void interpreter_fileread(void)
 	}
 	else								// denied
 	{
-		 UART_OutCRLF(); UART_OutString((char*)response);
+		 UART_OutCRLF(); 
+		for(int j=0; j<8; j++)	UART_OutChar(response[j]);	
 		return;
 	}
 	
@@ -139,7 +141,8 @@ void interpreter_fileread(void)
 	for(int i=0; i<filesize; i+=8)
 	{
 		CAN0_GetMail(file);
-		UART_OutString((char*)file);
+		for(int j=0; j<8; j++)	UART_OutChar(file[j]);
+		//UART_OutString((char*)file);
 	}
 }
 
@@ -254,7 +257,8 @@ void interpreter_filewrite(void)
 	}
 	else								// denied
 	{
-		 UART_OutCRLF(); UART_OutString((char*)response);
+		UART_OutCRLF();
+		for(int j=0; j<8; j++)	UART_OutChar(response[j]);	
 		return;
 	}
 	
@@ -263,9 +267,9 @@ void interpreter_filewrite(void)
 	for(int i=0; i<filesize; i+=8)
 	{
 		CAN0_GetMail(file);
-		UART_OutString((char*)file);
 		for(int j=0; j<8; j++)
 		{
+			UART_OutChar(file[j]);	
 			wqoriginal[wqfilesize] = file[j];
 			wqmodified[wqfilesize] = file[j];
 			wqfilesize++;
@@ -294,7 +298,8 @@ void interpreter_filerm(void)
 //	{}
 //	else								// denied
 //	{
-		 UART_OutCRLF(); UART_OutString((char*)response);
+		 UART_OutCRLF();
+		for(int j=0; j<8; j++)	UART_OutChar(response[j]);	
 //		return;
 //	}
 }
@@ -313,7 +318,8 @@ void interpreter_fileformat(void)
 //	{}
 //	else								// denied
 //	{
-		 UART_OutCRLF(); UART_OutString((char*)response);
+		 UART_OutCRLF();
+		for(int j=0; j<8; j++)	UART_OutChar(response[j]);	
 //		return;
 //	}
 }
