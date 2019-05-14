@@ -41,7 +41,6 @@
 #define ESC  0x1B
 #define SP   0x20
 #define DEL  0x7F
-#define TAB  0x09
 
 
 /**

@@ -24,9 +24,9 @@
 //////////////////////////////////////////////
 
 
-uint8_t a[8] = "hello!!";
-uint8_t b[16] = "how are you?!?!";
-uint8_t c[24] = "I am fine, how about u?";
+uint8_t a[32] = "hello!!";
+uint8_t b[32] = "how are you?!?!";
+uint8_t c[32] = "I am fine, how about u?";
 uint8_t d[32] = "This RTOS project is too hard!!";
 
 uint32_t filesize[5];
@@ -246,21 +246,25 @@ void Thread_Rcv1CAN(void)
 {
   uint8_t data[8];
 	Xmt1_ready=0;
-	
-	
+
+//////////////////////////debug///////////////////////	
+	UART_OutCRLF(); UART_OutCRLF();
+	UART_OutString("////****START new COMMAND****///"); UART_OutCRLF();
+   UART_OutString(" waiting to receive....."); UART_OutCRLF();
+///////////////////////////////////////////////////////	
 	
 		CAN0_GetMail1(data);
 		for(int i=0; i<8; i++){
 				Rcv1Data[i]=data[i];
 		}
-		
-		UART_OutString(" receive data: "); UART_OutCRLF();
+//////////////////////////debug///////////////////////		
+		UART_OutString(" receive command data: ");
 		UART_OutUDec(Rcv1Data[0]);
 		for(int i=1; i<8; i++){
 			UART_OutChar((char)Rcv1Data[i]);
 		}
 		UART_OutCRLF();
-		
+////////////////////////////////////////////////////////		
 		
 		Server_Rcv1Data_Task();		
 		Server_Xmt1Data_Task();
@@ -392,6 +396,10 @@ void Server_Rcv1Data_Task(void)
 		
 		case 5: // wq
 				//a) not found in directory -> "no file"
+//////////////////////////////////////////////		
+		UART_OutString(" wq file name: "); 
+		UART_OutString(filename[user1_d_index]); UART_OutCRLF();		
+////////////////////////////////////////////////////		
 				if(user1_d_index ==0){
 					strcpy((char *)Xmt1Data, "no file");
 				}
@@ -436,14 +444,14 @@ void Server_Xmt1Data_Task(void){
 	
 	CAN0_SendData1(Xmt1Data);
 /////////////////////////////////////////	
-		UART_OutString(" send data: "); UART_OutCRLF();
-		UART_OutString(" for ls, cat/more, vi : "); 
+		UART_OutString(" send reponse data: "); UART_OutCRLF();
+		UART_OutString("   for ls, cat/more, vi : "); 
 		UART_OutChar((char)Xmt1Data[0]);
 		for(int i=1; i<8; i++){
 			UART_OutUDec((char)Xmt1Data[i]);
 		}
 		UART_OutCRLF(); 
-		UART_OutString(" for rm, disk_format, wq: "); 
+		UART_OutString("   for rm, disk_format, wq: "); 
 		for(int i=0; i<8; i++){
 			UART_OutChar((char)Xmt1Data[i]);
 		}
@@ -509,25 +517,97 @@ void Server_Xmt1Data_Task(void){
 ////////////////////////////////////////////////////******* Task only for wq*******//////////////////////////////////////////////////////////
 
 
-uint32_t new_size=0;
+uint32_t wq_new_size=0;
+
 //********  Rcv1CAN14B_Task (only used for :wq)***************
 void Rcv1_WQ_Task(void){
-	// receive size
-	 
-	// find the directory and edit the size
 	
+	
+  uint8_t data[8];	
+	// receive size
+	CAN0_GetMail1(data);
+	
+	wq_new_size = (data[4] << 24) + (data[5] << 16) + (data[6] << 8) + data[7] ; 
+	
+//////////////////////////debug///////////////////////	
+	UART_OutString(" received wq size: "); 
+	UART_OutUDec(data[4]);UART_OutString(" ");
+	UART_OutUDec(data[5]);UART_OutString(" ");
+	UART_OutUDec(data[6]);UART_OutString(" ");
+	UART_OutUDec(data[7]);UART_OutCRLF();
+////////////////////////////////////////////////////////////////	
+
+	
+	// find the directory and edit the size
+	filesize[user1_d_index] = wq_new_size;
+
 	
 	// add Rcv1CAN8B_Thread
 	NumCreated += OS_AddThread(Thread_Rcv1_WQ, 128, 2);
+
 }
 
 
 //********  Thread_Rcv1_WQ (only used for :wq)***************
 void Thread_Rcv1_WQ(void){
+	uint8_t new_file[32];	
 	
+	uint8_t data[8];	
+	
+//////////////////////////debug///////////////////////	
+	UART_OutString(" waiting to receive new wq file of SIZE: ");  
+	UART_OutUDec(filesize[user1_d_index]);UART_OutCRLF();
+///////////////////////////////////////////////////////////////
+	
+	for(int i=0; i<(wq_new_size/8); i++){
+		
+//////////////////////////debug///////////////////////		
+		UART_OutString("   start: "); UART_OutUDec(i); 
+///////////////////////////////////////////////////////////////////////////////////
+		
+		CAN0_GetMail1(data);
+		
+		
+//////////////////////////debug///////////////////////		
+		UART_OutString("done! :  "); 
+///////////////////////////////////////////////////////////////////////////////////
+
+		
+		for(int j=0; j<8; j++){
+			new_file[i*8 + j] = data[j];
+//////////////////////////debug///////////////////////
+			UART_OutChar((char) data[j]);
+/////////////////////////////////////////////////////////			
+		}
+//////////////////////////debug///////////////////////
+			UART_OutCRLF();
+/////////////////////////////////////////////////////////		
+	}
+	
+//////////////////////////debug///////////////////////
+	UART_OutString(" received new wq file :  "); 
+	UART_OutString((char*) new_file); UART_OutCRLF();
+////////////////////////////////////////////////////
+	
+	
+	// when this thread is done, it has to be saved in the directory as well, sb........
+	if(user1_d_index == 1){
+		for(int i=0; i<32; i++)	a[i] = new_file[i];
+	}
+	if(user1_d_index == 2){
+		for(int i=0; i<32; i++)	b[i] = new_file[i];
+	}	
+	if(user1_d_index == 3){
+		for(int i=0; i<32; i++)	c[i] = new_file[i];
+	}	
+	if(user1_d_index == 4){
+		for(int i=0; i<32; i++)	d[i] = new_file[i];
+	}
+	
+	NumCreated += OS_AddThread(Thread_Rcv1CAN, 128, 2);
+	OS_Kill();
 	
 }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -598,13 +678,14 @@ void PThread_XtmCAN(void){
 		CAN0_SendData1(s1data);
 		
 		
-////////////////////////////////		
-		UART_OutString(" send periodic data: "); UART_OutUDec(Xmt1_done); UART_OutCRLF();
+//////////////////////////debug///////////////////////
+		UART_OutString(" send periodic data: "); UART_OutUDec(Xmt1_done);
+		UART_OutString("  :  "); 
 		for(int i=0; i<8; i++){
 			UART_OutChar((char)s1data[i]);
 		}
 		UART_OutCRLF();
-//////////////////////////////////////////
+////////////////////////////////////////////////////////
 		
 		Xmt1_done++;
 	}

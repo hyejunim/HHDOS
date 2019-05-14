@@ -221,7 +221,6 @@ int CAN0_GetMailNonBlock2(uint8_t data[8]){
 // if receive data is ready, gets the data 
 // if no receive data is ready, it waits until it is ready
 void CAN0_GetMail1(uint8_t data[8]){
-   UART_OutString(" waiting to receive....."); UART_OutCRLF();
    while(USER1Fifo_Size() <= 0) {}   // wait until fifo is not empty
 
    RCVDATA tmp;
