@@ -37,7 +37,7 @@
 #include "Timer3.h"
 #include "can0.h"
 #include "tm4c123gh6pm.h"
-#include "ST7735.h"
+//#include "ST7735.h"
 #include "UART2.h"
 #include "OS.h"
 #include "Interpreter.h"

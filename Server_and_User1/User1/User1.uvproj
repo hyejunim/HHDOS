@@ -416,11 +416,6 @@
               <FilePath>..\lib\_tm4c\startup.s</FilePath>
             </File>
             <File>
-              <FileName>ST7735.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lib\LCD\ST7735.c</FilePath>
-            </File>
-            <File>
               <FileName>PLL.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lib\common\src\PLL.c</FilePath>

@@ -8,7 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "ST7735.h"
+//#include "ST7735.h"
 #include "OS.h"
 #include "UART2.h"
 #include "User_Interpreter.h"
@@ -61,8 +61,8 @@ void Interpreter(void)
 		
 		//OS_Wait(&sUART);
 		// determine commands
-		if(!strcmp(tok[0], "lcd"))							interpreter_lcd();
-		else if(!strcmp(tok[0], "ls"))						interpreter_filels();
+		//if(!strcmp(tok[0], "lcd"))							interpreter_lcd();
+		if(!strcmp(tok[0], "ls"))						interpreter_filels();
 		else if(!strcmp(tok[0], "cat"))					interpreter_fileread();
 		else if(!strcmp(tok[0], "more"))				interpreter_fileread();
 		else if(!strcmp(tok[0], "vi"))						interpreter_filewrite();
@@ -122,7 +122,7 @@ void interpreter_fileread(void)
 		request[i] = tok[1][i-1];
 	CAN0_SendData(request);
 	
-	// 2) wait request from the server
+	// 2) wait response from the server
 	CAN0_GetMail(response);
 	if(response[0] == '*')	// approved
 	{
@@ -224,11 +224,17 @@ void modify(void)
 			// modify modified array
 			if(in == DEL) // backspace
 				wqfilesize--;
+			else if(in == CR)
+			{
+				wqmodified[wqfilesize++] = CR;
+				wqmodified[wqfilesize++] = LF;
+			}
 			else
-				wqmodified[wqfilesize] = in;
+				wqmodified[wqfilesize++] = in;
 			
 			// output on the screen
-			UART_OutChar(in);	
+			if(in==CR) UART_OutCRLF();
+			else	UART_OutChar(in);	
 		}
 	}
 }
@@ -244,11 +250,11 @@ void interpreter_filewrite(void)
 	request[0] = WRITE;
 	for(int i=1; i<8; i++) {
 		request[i] = tok[1][i-1];
-		wqfilename[i] = tok[1][i-1];
+		wqfilename[i-1] = tok[1][i-1];
 	}
 	CAN0_SendData(request);
 	
-	// 2) wait request from the server
+	// 2) wait response from the server
 	CAN0_GetMail(response);
 	if(response[0] == '*')	// approved
 	{
@@ -335,7 +341,7 @@ void interpreter_help(void)
 }
 
 
-
+/*
 void interpreter_lcd(void)
 {
 	int device, line;
@@ -359,7 +365,7 @@ void interpreter_lcd(void)
 	ST7735_Message(device, line, tok[3], value);
 }
 
-
+*/
 
 
 
