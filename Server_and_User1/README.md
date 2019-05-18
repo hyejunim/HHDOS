@@ -1,2 +1,0 @@
-# HHDOS
-HH Distributed OS
