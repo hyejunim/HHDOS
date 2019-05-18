@@ -1,0 +1,10 @@
+.\obj\thread_msort.o: src\Thread_mSort.c
+.\obj\thread_msort.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\thread_msort.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\obj\thread_msort.o: ../lib/LCD/ST7735.h
+.\obj\thread_msort.o: ../lib/OS/OS.h
+.\obj\thread_msort.o: ../lib/OS/TCB.h
+.\obj\thread_msort.o: src\Thread_mSort.h
+.\obj\thread_msort.o: src\Thread_mCAN.h
+.\obj\thread_msort.o: ../lib/OS/Interpreter.h
+.\obj\thread_msort.o: ../lib/OS/UART2.h

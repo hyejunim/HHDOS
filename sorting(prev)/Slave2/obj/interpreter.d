@@ -1,0 +1,9 @@
+.\obj\interpreter.o: ..\lib\OS\Interpreter.c
+.\obj\interpreter.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\interpreter.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\obj\interpreter.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\obj\interpreter.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\obj\interpreter.o: ../lib/LCD/ST7735.h
+.\obj\interpreter.o: ..\lib\OS\OS.h
+.\obj\interpreter.o: ..\lib\OS\TCB.h
+.\obj\interpreter.o: ..\lib\OS\UART2.h

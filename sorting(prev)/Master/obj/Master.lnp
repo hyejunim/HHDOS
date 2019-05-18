@@ -1,0 +1,19 @@
+--cpu Cortex-M4
+".\obj\main.o"
+".\obj\startup.o"
+".\obj\st7735.o"
+".\obj\pll.o"
+".\obj\thread_mcan.o"
+".\obj\thread_msort.o"
+".\obj\interpreter.o"
+".\obj\os.o"
+".\obj\osasm.o"
+".\obj\uart2.o"
+".\obj\thread_can.o"
+".\obj\can0.o"
+".\obj\can.o"
+".\obj\timer3.o"
+".\obj\interrupt.o"
+--library_type=microlib --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Master.map" -o .\obj\Master.axf

@@ -1,0 +1,11 @@
+.\obj\can0.o: src\can0.c
+.\obj\can0.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\can0.o: ../lib/CAN/hw_can.h
+.\obj\can0.o: ../lib/CAN/hw_ints.h
+.\obj\can0.o: ../lib/CAN/hw_memmap.h
+.\obj\can0.o: ../lib/_tm4c/hw_types.h
+.\obj\can0.o: ../lib/CAN/can.h
+.\obj\can0.o: ../lib/CAN/debug.h
+.\obj\can0.o: ../lib/CAN/interrupt.h
+.\obj\can0.o: src\can0.h
+.\obj\can0.o: ../lib/_tm4c/tm4c123gh6pm.h

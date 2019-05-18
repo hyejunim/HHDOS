@@ -1,0 +1,10 @@
+.\obj\can.o: ..\lib\CAN\can.c
+.\obj\can.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\can.o: ..\lib\CAN\hw_can.h
+.\obj\can.o: ..\lib\CAN\hw_ints.h
+.\obj\can.o: ..\lib\CAN\hw_nvic.h
+.\obj\can.o: ..\lib\CAN\hw_memmap.h
+.\obj\can.o: ..\lib\CAN\hw_types.h
+.\obj\can.o: ..\lib\CAN\can.h
+.\obj\can.o: ..\lib\CAN\debug.h
+.\obj\can.o: ..\lib\CAN\interrupt.h

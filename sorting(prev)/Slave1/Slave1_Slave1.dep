@@ -1,0 +1,111 @@
+Dependencies for Project 'Slave1', Target 'Slave1': (DO NOT MODIFY !)
+F (.\src\main.c)(0x5CD8EC54)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/common/inc/PLL.h)(0x5CD7287D)
+I (../lib/CAN/Timer3.h)(0x5CD7287D)
+I (src\can0.h)(0x5CD75832)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+I (../lib/OS/OS.h)(0x5CD8E26F)
+I (../lib/OS/TCB.h)(0x5CD7287D)
+I (src\Thread_sSort.h)(0x5CD8EC60)
+I (src\Thread_sCAN.h)(0x5CD8DCA7)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (../lib/OS/UART2.h)(0x5CD7287D)
+I (../lib/OS/Interpreter.h)(0x5CD845C4)
+F (..\lib\_tm4c\startup.s)(0x5CB4212F)(--cpu Cortex-M4 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list .\startup.lst --xref -o .\obj\startup.o --depend .\obj\startup.d)
+F (..\lib\LCD\ST7735.c)(0x5CD7287D)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\st7735.o --omf_browse .\obj\st7735.crf --depend .\obj\st7735.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (..\lib\LCD\ST7735.h)(0x5CD7287D)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+I (../lib/OS/OS.h)(0x5CD8E26F)
+I (../lib/OS/TCB.h)(0x5CD7287D)
+F (..\lib\common\src\PLL.c)(0x5CD7287D)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\pll.o --omf_browse .\obj\pll.crf --depend .\obj\pll.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/common/inc/PLL.h)(0x5CD7287D)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+F (.\src\Thread_sCAN.c)(0x5CD8EC54)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\thread_scan.o --omf_browse .\obj\thread_scan.crf --depend .\obj\thread_scan.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (src\can0.h)(0x5CD75832)
+I (../lib/OS/OS.h)(0x5CD8E26F)
+I (../lib/OS/TCB.h)(0x5CD7287D)
+I (src\Thread_sSort.h)(0x5CD8EC60)
+I (src\Thread_sCAN.h)(0x5CD8DCA7)
+F (.\src\Thread_sSort.c)(0x5CD8EC54)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\thread_ssort.o --omf_browse .\obj\thread_ssort.crf --depend .\obj\thread_ssort.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C88A34)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (../lib/OS/OS.h)(0x5CD8E26F)
+I (../lib/OS/TCB.h)(0x5CD7287D)
+I (src\Thread_sSort.h)(0x5CD8EC60)
+I (src\Thread_sCAN.h)(0x5CD8DCA7)
+I (../lib/OS/Interpreter.h)(0x5CD845C4)
+I (../lib/OS/UART2.h)(0x5CD7287D)
+F (..\lib\OS\Interpreter.c)(0x5CD845C4)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\interpreter.o --omf_browse .\obj\interpreter.crf --depend .\obj\interpreter.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C88A34)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C88A34)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C88A34)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (..\lib\OS\OS.h)(0x5CD8E26F)
+I (..\lib\OS\TCB.h)(0x5CD7287D)
+I (..\lib\OS\UART2.h)(0x5CD7287D)
+F (..\lib\OS\OS.c)(0x5CD8E156)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\os.o --omf_browse .\obj\os.crf --depend .\obj\os.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C88A34)
+I (..\lib\OS\OS.h)(0x5CD8E26F)
+I (..\lib\OS\TCB.h)(0x5CD7287D)
+I (../lib/common/inc/PLL.h)(0x5CD7287D)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (../lib/_tm4c/hw_types.h)(0x5CD7287D)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+I (..\lib\OS\UART2.h)(0x5CD7287D)
+I (..\lib\OS\Interpreter.h)(0x5CD845C4)
+F (..\lib\OS\osasm.s)(0x5CD7287D)(--cpu Cortex-M4 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list .\osasm.lst --xref -o .\obj\osasm.o --depend .\obj\osasm.d)
+F (..\lib\OS\TCB.h)(0x5CD7287D)()
+F (..\lib\OS\UART2.c)(0x5CD7287D)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\uart2.o --omf_browse .\obj\uart2.crf --depend .\obj\uart2.d)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C88A34)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+I (..\lib\OS\OS.h)(0x5CD8E26F)
+I (..\lib\OS\TCB.h)(0x5CD7287D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (..\lib\OS\UART2.h)(0x5CD7287D)
+F (..\lib\OS\Thread_CAN.c)(0x5CD8E825)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\thread_can.o --omf_browse .\obj\thread_can.crf --depend .\obj\thread_can.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/LCD/ST7735.h)(0x5CD7287D)
+I (src\can0.h)(0x5CD75832)
+I (..\lib\OS\OS.h)(0x5CD8E26F)
+I (..\lib\OS\TCB.h)(0x5CD7287D)
+I (..\lib\OS\Thread_CAN.h)(0x5CD75BC3)
+F (.\src\can0.c)(0x5CD75832)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\can0.o --omf_browse .\obj\can0.crf --depend .\obj\can0.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/CAN/hw_can.h)(0x5CD7287D)
+I (../lib/CAN/hw_ints.h)(0x5CD7287D)
+I (../lib/CAN/hw_memmap.h)(0x5CD7287D)
+I (../lib/_tm4c/hw_types.h)(0x5CD7287D)
+I (../lib/CAN/can.h)(0x5CD7287D)
+I (../lib/CAN/debug.h)(0x5CD7287D)
+I (../lib/CAN/interrupt.h)(0x5CD7287D)
+I (src\can0.h)(0x5CD75832)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
+F (..\lib\CAN\can.c)(0x5CD7287D)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\can.o --omf_browse .\obj\can.crf --depend .\obj\can.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (..\lib\CAN\hw_can.h)(0x5CD7287D)
+I (..\lib\CAN\hw_ints.h)(0x5CD7287D)
+I (..\lib\CAN\hw_nvic.h)(0x5CD7287D)
+I (..\lib\CAN\hw_memmap.h)(0x5CD7287D)
+I (..\lib\CAN\hw_types.h)(0x5CD7287D)
+I (..\lib\CAN\can.h)(0x5CD7287D)
+I (..\lib\CAN\debug.h)(0x5CD7287D)
+I (..\lib\CAN\interrupt.h)(0x5CD7287D)
+F (..\lib\CAN\interrupt.c)(0x5CD72F71)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\interrupt.o --omf_browse .\obj\interrupt.crf --depend .\obj\interrupt.d)
+I (..\lib\CAN\hw_ints.h)(0x5CD7287D)
+I (..\lib\CAN\hw_nvic.h)(0x5CD7287D)
+I (..\lib\CAN\hw_types.h)(0x5CD7287D)
+I (..\lib\CAN\cpu.h)(0x5CD7287D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (..\lib\CAN\debug.h)(0x5CD7287D)
+I (..\lib\CAN\interrupt.h)(0x5CD7287D)
+F (..\lib\CAN\Timer3.c)(0x5CD7287D)(-c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections --signed_chars -Isrc -I../lib/_tm4c -I../lib/common/inc -I../lib/CAN -I../lib/LCD -I../lib/OS --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\obj\timer3.o --omf_browse .\obj\timer3.crf --depend .\obj\timer3.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C88A34)
+I (../lib/_tm4c/tm4c123gh6pm.h)(0x5CD7287D)
